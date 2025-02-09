@@ -2,26 +2,30 @@ import express from 'express';
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { FinlightApi } from 'finlight-client';
-
 import cors from "cors";
 
 const app = express();
-
-// const port = 3000;
-const port = process.env.PORT || 3000;  // Use Railway-assigned port
-
+const port = process.env.PORT || 3000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(cors({ origin: "*" })); // Allow all origins
+// ✅ Enable CORS to allow Webflow to fetch data
+app.use(cors({ origin: "*" }));
+
+// ✅ Redirect HTTP to HTTPS
+app.use((req, res, next) => {
+    if (req.headers["x-forwarded-proto"] !== "https") {
+        return res.redirect("https://" + req.headers.host + req.url);
+    }
+    next();
+});
 
 const client = new FinlightApi({ 
   apiKey: 'sk_4a3003296ec151c6e65e0a8852e9856de6f1395b20d2e8c21f5d33c3146c2efa' 
 });
 
-// Global variable to store articles
+// ✅ Ensure API Data is Available
 let articleData = { message: "Loading news..." };
 
-// Fetch articles and update `articleData`
 async function getArticles() {
   try {
     const response = await client.articles.getExtendedArticles({ query: 'Deepseek' });
@@ -43,24 +47,24 @@ async function getArticles() {
   }
 }
 
-// Fetch articles on server startup & refresh every 5 minutes
+// ✅ Fetch Articles on Startup & Refresh Every 5 Minutes
 getArticles();
 setInterval(getArticles, 5 * 60 * 1000);
 
-// API route to serve articles
+// ✅ Define API Route to Serve Articles
 app.get('/api/data', (req, res) => {
   res.json(articleData);
 });
 
-// Serve static files
+// ✅ Serve Static Files
 app.use(express.static(join(__dirname, 'public')));
 
-// Send `index.html` for frontend
-app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, 'index.html'));
+// ✅ Catch-All Route (Prevents 404 Issues)
+app.get('*', (req, res) => {
+  res.send('API is running. Use /api/data to get news.');
 });
 
-// Start server
+// ✅ Start the Server
 app.listen(port, () => {
-  console.log(`Server running at https://webflow-scripts-production.up.railway.app`);
+  console.log(`✅ Server running on port ${port}`);
 });
