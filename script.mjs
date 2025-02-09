@@ -1,4 +1,7 @@
-import fetch from 'node-fetch';
+import express from "express";
+import cors from "cors";
+import fetch from "node-fetch"; // ✅ Works with `type: module`
+
 
 function fetchNews() {
     fetch('https://webflow-scripts-production.up.railway.app/api/data')
