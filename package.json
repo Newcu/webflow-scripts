@@ -2,14 +2,18 @@
   "name": "webflow-scripts",
   "version": "1.0.0",
   "main": "script.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node script.js"
   },
-  "keywords": [],
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "node-fetch": "^2.6.7",
+    "finlight-client": "^1.0.0"
+  },
+  "devDependencies": {},
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cors": "^2.8.5"
-  }
+  "description": ""
 }
