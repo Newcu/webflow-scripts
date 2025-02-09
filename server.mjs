@@ -4,7 +4,6 @@ import { fileURLToPath } from 'node:url';
 import { FinlightApi } from 'finlight-client';
 
 import cors from "cors";
-app.use(cors({ origin: "*" })); // Allow all origins
 
 const app = express();
 
@@ -12,6 +11,8 @@ const app = express();
 const port = process.env.PORT || 3000;  // Use Railway-assigned port
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+app.use(cors({ origin: "*" })); // Allow all origins
 
 const client = new FinlightApi({ 
   apiKey: 'sk_4a3003296ec151c6e65e0a8852e9856de6f1395b20d2e8c21f5d33c3146c2efa' 
@@ -61,5 +62,5 @@ app.get('/', (req, res) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at https://webflow-scripts-production.up.railway.app`);
 });
