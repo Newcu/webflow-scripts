@@ -2,7 +2,9 @@ import express from 'express';
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { FinlightApi } from 'finlight-client';
+
 import cors from "cors";
+app.use(cors({ origin: "*" })); // Allow all origins
 
 const app = express();
 
@@ -39,8 +41,6 @@ async function getArticles() {
     articleData = { error: "Failed to fetch articles" };
   }
 }
-
-app.use(cors({ origin: "*" }));
 
 // Fetch articles on server startup & refresh every 5 minutes
 getArticles();
