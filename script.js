@@ -1,8 +1,8 @@
 function fetchNews() {
-    fetch('/api/data')
+    fetch('https://webflow-scripts-production.up.railway.app/api/data')  // ✅ Fixed URL
         .then(response => response.json())
         .then(data => {
-            const output = document.getElementById("output");
+            const output = document.getElementById("news-container");
             output.innerHTML = ""; // Clear old content
 
             if (Array.isArray(data)) {
@@ -27,8 +27,8 @@ function fetchNews() {
         .catch(error => console.error("Error fetching data:", error));
 }
 
-// Fetch news when page loads
+// ✅ Fetch news when page loads
 fetchNews();
 
-// Refresh every 60 seconds
+// ✅ Refresh every 60 seconds
 setInterval(fetchNews, 60000);
